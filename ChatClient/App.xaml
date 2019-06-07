@@ -1,0 +1,10 @@
+﻿<Application x:Class="ChatClient.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ChatClient"
+             xmlns:viewModel="clr-namespace:ChatClient.ViewModel"
+             StartupUri="View/ChatWindow.xaml">
+    <Application.Resources>
+        <viewModel:ViewModelLocator x:Key="ViewModelLocator"/>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F2A4334E-DB7A-4BB2-8814-4543B657C882}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataLevel</RootNamespace>
+    <AssemblyName>DataLevel</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.2.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Factory, Version=3.3.2.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Extensions.Factory.3.3.2\lib\net45\Ninject.Extensions.Factory.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Abstract\IDataManagerFactory.cs" />
+    <Compile Include="Abstract\IMessageDataManager.cs" />
+    <Compile Include="Abstract\IRelationDataManager.cs" />
+    <Compile Include="Cause.cs">
+      <DependentUpon>ChatDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChatDb.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChatDb.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChatDb.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChatDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChatDb.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChatDb.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\AuthorizationDataManager.cs" />
+    <Compile Include="Abstract\IAuthorizationDataManager.cs" />
+    <Compile Include="Abstract\IChatDb.cs" />
+    <Compile Include="Concrete\ChatDb.cs" />
+    <Compile Include="Concrete\MessageDataManager.cs" />
+    <Compile Include="Concrete\RelationDataManager.cs" />
+    <Compile Include="CurrentUser.cs">
+      <DependentUpon>ChatDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\ConfigDataLevelModule.cs" />
+    <Compile Include="Abstract\IUserDataManager.cs" />
+    <Compile Include="LogUserDeleted.cs">
+      <DependentUpon>ChatDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LogUserLocked.cs">
+      <DependentUpon>ChatDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LogUserOnLine.cs">
+      <DependentUpon>ChatDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mapping\BaseDataModelExtension.cs" />
+    <Compile Include="Mapping\DataLevelProfile.cs" />
+    <Compile Include="Mapping\CurrentUserExtension.cs" />
+    <Compile Include="Mapping\OnlineUserExtension.cs" />
+    <Compile Include="Mapping\UnreadMessageExtension.cs" />
+    <Compile Include="Mapping\UserRelatioResultExtension.cs" />
+    <Compile Include="Message.cs">
+      <DependentUpon>ChatDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\BaseDataModel.cs" />
+    <Compile Include="Model\LoginDataModel.cs" />
+    <Compile Include="Model\LoginResultData.cs" />
+    <Compile Include="Model\LoginResultDataModel.cs" />
+    <Compile Include="Model\LoginSuccessDataModel.cs" />
+    <Compile Include="Model\LogoutDataModel.cs" />
+    <Compile Include="Model\MessageDataModel.cs" />
+    <Compile Include="Model\MessagePartialDataModel.cs" />
+    <Compile Include="Model\MessageStatusData.cs" />
+    <Compile Include="Model\OnlineUserDataModel.cs" />
+    <Compile Include="Model\UserCollectionDataModel.cs" />
+    <Compile Include="Model\RegistrationDataModel.cs" />
+    <Compile Include="Model\RegistrationResultData.cs" />
+    <Compile Include="Model\RegistrationResultDataModel.cs" />
+    <Compile Include="Model\UserPartialDataModel.cs" />
+    <Compile Include="Model\RelationDataModel.cs" />
+    <Compile Include="Model\UnreadMessagesResultDataModel.cs" />
+    <Compile Include="Model\UserRelationData.cs" />
+    <Compile Include="Model\UserRelationDataModel.cs" />
+    <Compile Include="Model\UserRelationResultDataModel.cs" />
+    <Compile Include="OnlineUser.cs">
+      <DependentUpon>ChatDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Concrete\UserDataManager.cs" />
+    <Compile Include="RelationBlackList.cs">
+      <DependentUpon>ChatDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RelationFriend.cs">
+      <DependentUpon>ChatDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Role.cs">
+      <DependentUpon>ChatDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Status.cs">
+      <DependentUpon>ChatDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UnreadMessage.cs">
+      <DependentUpon>ChatDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>ChatDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserRelation.cs">
+      <DependentUpon>ChatDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserRelatioResult.cs">
+      <DependentUpon>ChatDb.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="ChatDb.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ChatDb.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="ChatDb.edmx.diagram">
+      <DependentUpon>ChatDb.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ChatDb.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ChatDb.edmx</DependentUpon>
+      <LastGenOutput>ChatDb.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="ChatDb.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ChatDb.edmx</DependentUpon>
+      <LastGenOutput>ChatDb.cs</LastGenOutput>
+    </Content>
+    <Content Include="SqlScriptDb\ProcedureSqlQuery.sql" />
+    <Content Include="SqlScriptDb\TableSqlQuery.sql" />
+    <Content Include="SqlScriptDb\TriggerSqlQuery.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

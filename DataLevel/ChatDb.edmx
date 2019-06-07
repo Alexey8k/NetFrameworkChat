@@ -1,0 +1,1054 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище NetFrameworkChatDbModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cause">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "NetFrameworkChatDb.dbo.LogUserDeleted" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="LogUserDeleted">
+          <Key>
+            <PropertyRef Name="idUser" />
+            <PropertyRef Name="dateDeleted" />
+          </Key>
+          <Property Name="idUser" Type="int" Nullable="false" />
+          <Property Name="dateDeleted" Type="datetime" Nullable="false" />
+          <Property Name="dateRecovery" Type="datetime" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "NetFrameworkChatDb.dbo.LogUserLocked" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="LogUserLocked">
+          <Key>
+            <PropertyRef Name="userId" />
+            <PropertyRef Name="userIdAdminLock" />
+            <PropertyRef Name="dateLock" />
+          </Key>
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="userIdAdminLock" Type="int" Nullable="false" />
+          <Property Name="userIdAdminUnlock" Type="int" />
+          <Property Name="causeId" Type="tinyint" />
+          <Property Name="anotherCause" Type="varchar" MaxLength="150" />
+          <Property Name="lockSpanMinutes" Type="int" />
+          <Property Name="dateLock" Type="datetime" Nullable="false" />
+          <Property Name="dateUnlock" Type="datetime" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "NetFrameworkChatDb.dbo.LogUserOnLine" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="LogUserOnLine">
+          <Key>
+            <PropertyRef Name="userId" />
+            <PropertyRef Name="dateIn" />
+          </Key>
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="dateIn" Type="datetime" Nullable="false" />
+          <Property Name="dateOut" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="text" Type="varchar" MaxLength="140" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="ownerUserId" Type="int" Nullable="false" />
+          <Property Name="statusId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "NetFrameworkChatDb.dbo.MessageUser" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="MessageUser">
+          <Key>
+            <PropertyRef Name="messageId" />
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="messageId" Type="int" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "NetFrameworkChatDb.dbo.RelationBlackList" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="RelationBlackList">
+          <Key>
+            <PropertyRef Name="userId" />
+            <PropertyRef Name="userIdLocked" />
+            <PropertyRef Name="dateLock" />
+          </Key>
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="userIdLocked" Type="int" Nullable="false" />
+          <Property Name="dateLock" Type="datetime" Nullable="false" />
+          <Property Name="dateUnlock" Type="datetime" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "NetFrameworkChatDb.dbo.RelationFriend" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="RelationFriend">
+          <Key>
+            <PropertyRef Name="userId1" />
+            <PropertyRef Name="userId2" />
+          </Key>
+          <Property Name="userId1" Type="int" Nullable="false" />
+          <Property Name="userId2" Type="int" Nullable="false" />
+          <Property Name="dateStart" Type="datetime" />
+          <Property Name="dateStop" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="hash" Type="varbinary" MaxLength="100" Nullable="false" />
+          <Property Name="roleId" Type="tinyint" Nullable="false" />
+          <Property Name="color32" Type="int" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="dateCreation" Type="datetime" Nullable="false" />
+          <Property Name="lastVisitDate" Type="datetime" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
+          <Property Name="locked" Type="bit" Nullable="false" />
+          <Property Name="onLine" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_LogUserDeleted_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="LogUserDeleted" Type="Self.LogUserDeleted" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LogUserDeleted">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LogUserLocked_Cause">
+          <End Role="Cause" Type="Self.Cause" Multiplicity="0..1" />
+          <End Role="LogUserLocked" Type="Self.LogUserLocked" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cause">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LogUserLocked">
+              <PropertyRef Name="causeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LogUserLocked_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="LogUserLocked" Type="Self.LogUserLocked" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LogUserLocked">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LogUserLocked_UserAdminLock">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="LogUserLocked" Type="Self.LogUserLocked" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LogUserLocked">
+              <PropertyRef Name="userIdAdminLock" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LogUserLocked_UserAdminUnlock">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="LogUserLocked" Type="Self.LogUserLocked" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LogUserLocked">
+              <PropertyRef Name="userIdAdminUnlock" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LogUserOnLine_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="LogUserOnLine" Type="Self.LogUserOnLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LogUserOnLine">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Message_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="ownerUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MessageUser_Message">
+          <End Role="Message" Type="Self.Message" Multiplicity="1" />
+          <End Role="MessageUser" Type="Self.MessageUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MessageUser">
+              <PropertyRef Name="messageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MessageUser_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="MessageUser" Type="Self.MessageUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MessageUser">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelationBlackList_UserInitiator">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="RelationBlackList" Type="Self.RelationBlackList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RelationBlackList">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelationBlackList_UserRelation">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="RelationBlackList" Type="Self.RelationBlackList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RelationBlackList">
+              <PropertyRef Name="userIdLocked" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelationFriend_UserInitiator">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="RelationFriend" Type="Self.RelationFriend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RelationFriend">
+              <PropertyRef Name="userId1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelationFriend_UserRelation">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="RelationFriend" Type="Self.RelationFriend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RelationFriend">
+              <PropertyRef Name="userId2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AddBlackList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userId" Type="int" Mode="In" />
+          <Parameter Name="usersIdLocked" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="AddFriend" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userId" Type="int" Mode="In" />
+          <Parameter Name="usersId" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="AddMessage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="text" Type="nvarchar" Mode="In" />
+          <Parameter Name="userId" Type="int" Mode="In" />
+          <Parameter Name="statusId" Type="int" Mode="In" />
+          <Parameter Name="usersId" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="GetCurrentUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="hash" Type="varbinary" Mode="In" />
+        </Function>
+        <Function Name="GetOnlineUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="currentUserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetUnreadMessages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetUserRelation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="currentUserId" Type="int" Mode="In" />
+          <Parameter Name="relationUserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="hash" Type="varbinary" Mode="In" />
+        </Function>
+        <Function Name="Logout" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Registration" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="login" Type="varchar" Mode="In" />
+          <Parameter Name="hash" Type="varbinary" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="color32" Type="int" Mode="In" />
+          <Parameter Name="roleId" Type="tinyint" Mode="In" />
+        </Function>
+        <Function Name="RemoveBlackList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userId" Type="int" Mode="In" />
+          <Parameter Name="usersIdLocked" Type="varchar(max)" Mode="In" />
+        </Function>
+        <EntityContainer Name="Хранилище NetFrameworkChatDbModelContainer">
+          <EntitySet Name="Cause" EntityType="Self.Cause" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogUserDeleted" EntityType="Self.LogUserDeleted" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [LogUserDeleted].[idUser] AS [idUser], 
+    [LogUserDeleted].[dateDeleted] AS [dateDeleted], 
+    [LogUserDeleted].[dateRecovery] AS [dateRecovery]
+    FROM [dbo].[LogUserDeleted] AS [LogUserDeleted]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="LogUserLocked" EntityType="Self.LogUserLocked" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [LogUserLocked].[userId] AS [userId], 
+    [LogUserLocked].[userIdAdminLock] AS [userIdAdminLock], 
+    [LogUserLocked].[userIdAdminUnlock] AS [userIdAdminUnlock], 
+    [LogUserLocked].[causeId] AS [causeId], 
+    [LogUserLocked].[anotherCause] AS [anotherCause], 
+    [LogUserLocked].[lockSpanMinutes] AS [lockSpanMinutes], 
+    [LogUserLocked].[dateLock] AS [dateLock], 
+    [LogUserLocked].[dateUnlock] AS [dateUnlock]
+    FROM [dbo].[LogUserLocked] AS [LogUserLocked]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="LogUserOnLine" EntityType="Self.LogUserOnLine" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [LogUserOnLine].[userId] AS [userId], 
+    [LogUserOnLine].[dateIn] AS [dateIn], 
+    [LogUserOnLine].[dateOut] AS [dateOut]
+    FROM [dbo].[LogUserOnLine] AS [LogUserOnLine]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MessageUser" EntityType="Self.MessageUser" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MessageUser].[messageId] AS [messageId], 
+    [MessageUser].[userId] AS [userId]
+    FROM [dbo].[MessageUser] AS [MessageUser]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="RelationBlackList" EntityType="Self.RelationBlackList" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [RelationBlackList].[userId] AS [userId], 
+    [RelationBlackList].[userIdLocked] AS [userIdLocked], 
+    [RelationBlackList].[dateLock] AS [dateLock], 
+    [RelationBlackList].[dateUnlock] AS [dateUnlock]
+    FROM [dbo].[RelationBlackList] AS [RelationBlackList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="RelationFriend" EntityType="Self.RelationFriend" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [RelationFriend].[userId1] AS [userId1], 
+    [RelationFriend].[userId2] AS [userId2], 
+    [RelationFriend].[dateStart] AS [dateStart], 
+    [RelationFriend].[dateStop] AS [dateStop]
+    FROM [dbo].[RelationFriend] AS [RelationFriend]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_LogUserDeleted_User" Association="Self.FK_LogUserDeleted_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="LogUserDeleted" EntitySet="LogUserDeleted" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LogUserLocked_Cause" Association="Self.FK_LogUserLocked_Cause">
+            <End Role="Cause" EntitySet="Cause" />
+            <End Role="LogUserLocked" EntitySet="LogUserLocked" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LogUserLocked_User" Association="Self.FK_LogUserLocked_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="LogUserLocked" EntitySet="LogUserLocked" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LogUserLocked_UserAdminLock" Association="Self.FK_LogUserLocked_UserAdminLock">
+            <End Role="User" EntitySet="User" />
+            <End Role="LogUserLocked" EntitySet="LogUserLocked" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LogUserLocked_UserAdminUnlock" Association="Self.FK_LogUserLocked_UserAdminUnlock">
+            <End Role="User" EntitySet="User" />
+            <End Role="LogUserLocked" EntitySet="LogUserLocked" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LogUserOnLine_User" Association="Self.FK_LogUserOnLine_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="LogUserOnLine" EntitySet="LogUserOnLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Message_User" Association="Self.FK_Message_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MessageUser_Message" Association="Self.FK_MessageUser_Message">
+            <End Role="Message" EntitySet="Message" />
+            <End Role="MessageUser" EntitySet="MessageUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MessageUser_User" Association="Self.FK_MessageUser_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="MessageUser" EntitySet="MessageUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelationBlackList_UserInitiator" Association="Self.FK_RelationBlackList_UserInitiator">
+            <End Role="User" EntitySet="User" />
+            <End Role="RelationBlackList" EntitySet="RelationBlackList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelationBlackList_UserRelation" Association="Self.FK_RelationBlackList_UserRelation">
+            <End Role="User" EntitySet="User" />
+            <End Role="RelationBlackList" EntitySet="RelationBlackList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelationFriend_UserInitiator" Association="Self.FK_RelationFriend_UserInitiator">
+            <End Role="User" EntitySet="User" />
+            <End Role="RelationFriend" EntitySet="RelationFriend" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelationFriend_UserRelation" Association="Self.FK_RelationFriend_UserRelation">
+            <End Role="User" EntitySet="User" />
+            <End Role="RelationFriend" EntitySet="RelationFriend" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NetFrameworkChatDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cause">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="LogUserLocked" Relationship="Self.FK_LogUserLocked_Cause" FromRole="Cause" ToRole="LogUserLocked" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="text" Type="String" MaxLength="140" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ownerUserId" Type="Int32" Nullable="false" />
+          <Property Name="statusId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Message_User" FromRole="Message" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.MessageUser" FromRole="Message" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="hash" Type="Binary" MaxLength="100" FixedLength="false" Nullable="false" />
+          <Property Name="roleId" Type="Byte" Nullable="false" />
+          <Property Name="color32" Type="Int32" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dateCreation" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="lastVisitDate" Type="DateTime" Precision="3" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
+          <Property Name="locked" Type="Boolean" Nullable="false" />
+          <Property Name="onLine" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Message" Relationship="Self.FK_Message_User" FromRole="User" ToRole="Message" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="LogUserDeleted" Relationship="Self.FK_LogUserDeleted_User" FromRole="User" ToRole="LogUserDeleted" />
+          <NavigationProperty Name="LogUserLocked" Relationship="Self.FK_LogUserLocked_User" FromRole="User" ToRole="LogUserLocked" />
+          <NavigationProperty Name="LogUserLocked1" Relationship="Self.FK_LogUserLocked_UserAdminLock" FromRole="User" ToRole="LogUserLocked" />
+          <NavigationProperty Name="LogUserLocked2" Relationship="Self.FK_LogUserLocked_UserAdminUnlock" FromRole="User" ToRole="LogUserLocked" />
+          <NavigationProperty Name="LogUserOnLine" Relationship="Self.FK_LogUserOnLine_User" FromRole="User" ToRole="LogUserOnLine" />
+          <NavigationProperty Name="RelationBlackList" Relationship="Self.FK_RelationBlackList_UserInitiator" FromRole="User" ToRole="RelationBlackList" />
+          <NavigationProperty Name="RelationBlackList1" Relationship="Self.FK_RelationBlackList_UserRelation" FromRole="User" ToRole="RelationBlackList" />
+          <NavigationProperty Name="RelationFriend" Relationship="Self.FK_RelationFriend_UserInitiator" FromRole="User" ToRole="RelationFriend" />
+          <NavigationProperty Name="RelationFriend1" Relationship="Self.FK_RelationFriend_UserRelation" FromRole="User" ToRole="RelationFriend" />
+          <NavigationProperty Name="Message1" Relationship="Self.MessageUser" FromRole="User" ToRole="Message" />
+        </EntityType>
+        <EntityType Name="LogUserDeleted">
+          <Key>
+            <PropertyRef Name="idUser" />
+            <PropertyRef Name="dateDeleted" />
+          </Key>
+          <Property Name="idUser" Type="Int32" Nullable="false" />
+          <Property Name="dateDeleted" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dateRecovery" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="Self.FK_LogUserDeleted_User" FromRole="LogUserDeleted" ToRole="User" />
+        </EntityType>
+        <EntityType Name="LogUserLocked">
+          <Key>
+            <PropertyRef Name="userId" />
+            <PropertyRef Name="userIdAdminLock" />
+            <PropertyRef Name="dateLock" />
+          </Key>
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="userIdAdminLock" Type="Int32" Nullable="false" />
+          <Property Name="userIdAdminUnlock" Type="Int32" />
+          <Property Name="causeId" Type="Byte" />
+          <Property Name="anotherCause" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="lockSpanMinutes" Type="Int32" />
+          <Property Name="dateLock" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dateUnlock" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Cause" Relationship="Self.FK_LogUserLocked_Cause" FromRole="LogUserLocked" ToRole="Cause" />
+          <NavigationProperty Name="User" Relationship="Self.FK_LogUserLocked_User" FromRole="LogUserLocked" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_LogUserLocked_UserAdminLock" FromRole="LogUserLocked" ToRole="User" />
+          <NavigationProperty Name="User2" Relationship="Self.FK_LogUserLocked_UserAdminUnlock" FromRole="LogUserLocked" ToRole="User" />
+        </EntityType>
+        <EntityType Name="LogUserOnLine">
+          <Key>
+            <PropertyRef Name="userId" />
+            <PropertyRef Name="dateIn" />
+          </Key>
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="dateIn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dateOut" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="Self.FK_LogUserOnLine_User" FromRole="LogUserOnLine" ToRole="User" />
+        </EntityType>
+        <EntityType Name="RelationBlackList">
+          <Key>
+            <PropertyRef Name="userId" />
+            <PropertyRef Name="userIdLocked" />
+            <PropertyRef Name="dateLock" />
+          </Key>
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="userIdLocked" Type="Int32" Nullable="false" />
+          <Property Name="dateLock" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dateUnlock" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="Self.FK_RelationBlackList_UserInitiator" FromRole="RelationBlackList" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_RelationBlackList_UserRelation" FromRole="RelationBlackList" ToRole="User" />
+        </EntityType>
+        <EntityType Name="RelationFriend">
+          <Key>
+            <PropertyRef Name="userId1" />
+            <PropertyRef Name="userId2" />
+          </Key>
+          <Property Name="userId1" Type="Int32" Nullable="false" />
+          <Property Name="userId2" Type="Int32" Nullable="false" />
+          <Property Name="dateStart" Type="DateTime" Precision="3" />
+          <Property Name="dateStop" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="Self.FK_RelationFriend_UserInitiator" FromRole="RelationFriend" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_RelationFriend_UserRelation" FromRole="RelationFriend" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_LogUserLocked_Cause">
+          <End Role="Cause" Type="Self.Cause" Multiplicity="0..1" />
+          <End Role="LogUserLocked" Type="Self.LogUserLocked" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cause">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LogUserLocked">
+              <PropertyRef Name="causeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Message_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="ownerUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LogUserDeleted_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="LogUserDeleted" Type="Self.LogUserDeleted" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LogUserDeleted">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LogUserLocked_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="LogUserLocked" Type="Self.LogUserLocked" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LogUserLocked">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LogUserLocked_UserAdminLock">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="LogUserLocked" Type="Self.LogUserLocked" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LogUserLocked">
+              <PropertyRef Name="userIdAdminLock" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LogUserLocked_UserAdminUnlock">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="LogUserLocked" Type="Self.LogUserLocked" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LogUserLocked">
+              <PropertyRef Name="userIdAdminUnlock" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LogUserOnLine_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="LogUserOnLine" Type="Self.LogUserOnLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LogUserOnLine">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelationBlackList_UserInitiator">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="RelationBlackList" Type="Self.RelationBlackList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RelationBlackList">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelationBlackList_UserRelation">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="RelationBlackList" Type="Self.RelationBlackList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RelationBlackList">
+              <PropertyRef Name="userIdLocked" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelationFriend_UserInitiator">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="RelationFriend" Type="Self.RelationFriend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RelationFriend">
+              <PropertyRef Name="userId1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelationFriend_UserRelation">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="RelationFriend" Type="Self.RelationFriend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RelationFriend">
+              <PropertyRef Name="userId2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MessageUser">
+          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="ChatDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cause" EntityType="Self.Cause" />
+          <EntitySet Name="Message" EntityType="Self.Message" />
+          <EntitySet Name="Role" EntityType="Self.Role" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="LogUserDeleted" EntityType="Self.LogUserDeleted" />
+          <EntitySet Name="LogUserLocked" EntityType="Self.LogUserLocked" />
+          <EntitySet Name="LogUserOnLine" EntityType="Self.LogUserOnLine" />
+          <EntitySet Name="RelationBlackList" EntityType="Self.RelationBlackList" />
+          <EntitySet Name="RelationFriend" EntityType="Self.RelationFriend" />
+          <AssociationSet Name="FK_LogUserLocked_Cause" Association="Self.FK_LogUserLocked_Cause">
+            <End Role="Cause" EntitySet="Cause" />
+            <End Role="LogUserLocked" EntitySet="LogUserLocked" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Message_User" Association="Self.FK_Message_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LogUserDeleted_User" Association="Self.FK_LogUserDeleted_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="LogUserDeleted" EntitySet="LogUserDeleted" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LogUserLocked_User" Association="Self.FK_LogUserLocked_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="LogUserLocked" EntitySet="LogUserLocked" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LogUserLocked_UserAdminLock" Association="Self.FK_LogUserLocked_UserAdminLock">
+            <End Role="User" EntitySet="User" />
+            <End Role="LogUserLocked" EntitySet="LogUserLocked" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LogUserLocked_UserAdminUnlock" Association="Self.FK_LogUserLocked_UserAdminUnlock">
+            <End Role="User" EntitySet="User" />
+            <End Role="LogUserLocked" EntitySet="LogUserLocked" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LogUserOnLine_User" Association="Self.FK_LogUserOnLine_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="LogUserOnLine" EntitySet="LogUserOnLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelationBlackList_UserInitiator" Association="Self.FK_RelationBlackList_UserInitiator">
+            <End Role="User" EntitySet="User" />
+            <End Role="RelationBlackList" EntitySet="RelationBlackList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelationBlackList_UserRelation" Association="Self.FK_RelationBlackList_UserRelation">
+            <End Role="User" EntitySet="User" />
+            <End Role="RelationBlackList" EntitySet="RelationBlackList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelationFriend_UserInitiator" Association="Self.FK_RelationFriend_UserInitiator">
+            <End Role="User" EntitySet="User" />
+            <End Role="RelationFriend" EntitySet="RelationFriend" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelationFriend_UserRelation" Association="Self.FK_RelationFriend_UserRelation">
+            <End Role="User" EntitySet="User" />
+            <End Role="RelationFriend" EntitySet="RelationFriend" />
+          </AssociationSet>
+          <AssociationSet Name="MessageUser" Association="Self.MessageUser">
+            <End Role="Message" EntitySet="Message" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <FunctionImport Name="GetCurrentUser" ReturnType="Collection(NetFrameworkChatDbModel.CurrentUser)">
+          <Parameter Name="hash" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="Login" ReturnType="Collection(Byte)">
+          <Parameter Name="hash" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="Logout">
+          <Parameter Name="userId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Registration" ReturnType="Collection(Byte)">
+            <Parameter Name="login" Mode="In" Type="String" />
+            <Parameter Name="hash" Mode="In" Type="Binary" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="color32" Mode="In" Type="Int32" />
+            <Parameter Name="roleId" Mode="In" Type="Byte" />
+          </FunctionImport>
+          <FunctionImport Name="AddMessage">
+            <Parameter Name="text" Mode="In" Type="String" />
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+            <Parameter Name="statusId" Mode="In" Type="Int32" />
+            <Parameter Name="usersId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetUnreadMessages" ReturnType="Collection(NetFrameworkChatDbModel.UnreadMessage)">
+          <Parameter Name="userId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddBlackList">
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+            <Parameter Name="usersIdLocked" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AddFriend">
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+            <Parameter Name="usersId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetOnlineUsers" ReturnType="Collection(NetFrameworkChatDbModel.OnlineUser)">
+          <Parameter Name="currentUserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetUserRelation" ReturnType="Collection(NetFrameworkChatDbModel.UserRelatioResult)">
+            <Parameter Name="currentUserId" Mode="In" Type="Int32" />
+            <Parameter Name="relationUserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="RemoveBlackList">
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+            <Parameter Name="usersIdLocked" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="CurrentUser">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="login" Nullable="false" MaxLength="15" />
+          <Property Type="Int32" Name="color32" Nullable="false" />
+          <Property Type="Byte" Name="roleId" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="OnlineUser">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="login" Nullable="false" MaxLength="15" />
+          <Property Type="Int32" Name="color32" Nullable="false" />
+          <Property Type="Byte" Name="roleId" Nullable="false" />
+          <Property Type="NetFrameworkChatDbModel.UserRelation" Name="relation" Nullable="false" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        </ComplexType>
+        <ComplexType Name="UnreadMessage">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="text" Nullable="false" MaxLength="140" />
+          <Property Type="DateTime" Name="date" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="status" Nullable="false" />
+          <Property Type="String" Name="login" Nullable="false" MaxLength="15" />
+        </ComplexType>
+        <EnumType Name="UserRelation">
+          <Member Name="None" />
+          <Member Name="Friend" />
+          <Member Name="BlackList" />
+        </EnumType>
+        <ComplexType Name="UserRelatioResult" >
+          <Property Type="NetFrameworkChatDbModel.UserRelation" Name="relation" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище NetFrameworkChatDbModelContainer" CdmEntityContainer="ChatDbEntities">
+          <EntitySetMapping Name="Cause">
+            <EntityTypeMapping TypeName="NetFrameworkChatDbModel.Cause">
+              <MappingFragment StoreEntitySet="Cause">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Message">
+            <EntityTypeMapping TypeName="NetFrameworkChatDbModel.Message">
+              <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="ownerUserId" ColumnName="ownerUserId" />
+                <ScalarProperty Name="statusId" ColumnName="statusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="NetFrameworkChatDbModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="NetFrameworkChatDbModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="NetFrameworkChatDbModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="hash" ColumnName="hash" />
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
+                <ScalarProperty Name="color32" ColumnName="color32" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="dateCreation" ColumnName="dateCreation" />
+                <ScalarProperty Name="lastVisitDate" ColumnName="lastVisitDate" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="locked" ColumnName="locked" />
+                <ScalarProperty Name="onLine" ColumnName="onLine" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogUserDeleted">
+            <EntityTypeMapping TypeName="NetFrameworkChatDbModel.LogUserDeleted">
+              <MappingFragment StoreEntitySet="LogUserDeleted">
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+                <ScalarProperty Name="dateDeleted" ColumnName="dateDeleted" />
+                <ScalarProperty Name="dateRecovery" ColumnName="dateRecovery" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogUserLocked">
+            <EntityTypeMapping TypeName="NetFrameworkChatDbModel.LogUserLocked">
+              <MappingFragment StoreEntitySet="LogUserLocked">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="userIdAdminLock" ColumnName="userIdAdminLock" />
+                <ScalarProperty Name="userIdAdminUnlock" ColumnName="userIdAdminUnlock" />
+                <ScalarProperty Name="causeId" ColumnName="causeId" />
+                <ScalarProperty Name="anotherCause" ColumnName="anotherCause" />
+                <ScalarProperty Name="lockSpanMinutes" ColumnName="lockSpanMinutes" />
+                <ScalarProperty Name="dateLock" ColumnName="dateLock" />
+                <ScalarProperty Name="dateUnlock" ColumnName="dateUnlock" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogUserOnLine">
+            <EntityTypeMapping TypeName="NetFrameworkChatDbModel.LogUserOnLine">
+              <MappingFragment StoreEntitySet="LogUserOnLine">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="dateIn" ColumnName="dateIn" />
+                <ScalarProperty Name="dateOut" ColumnName="dateOut" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RelationBlackList">
+            <EntityTypeMapping TypeName="NetFrameworkChatDbModel.RelationBlackList">
+              <MappingFragment StoreEntitySet="RelationBlackList">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="userIdLocked" ColumnName="userIdLocked" />
+                <ScalarProperty Name="dateLock" ColumnName="dateLock" />
+                <ScalarProperty Name="dateUnlock" ColumnName="dateUnlock" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RelationFriend">
+            <EntityTypeMapping TypeName="NetFrameworkChatDbModel.RelationFriend">
+              <MappingFragment StoreEntitySet="RelationFriend">
+                <ScalarProperty Name="userId1" ColumnName="userId1" />
+                <ScalarProperty Name="userId2" ColumnName="userId2" />
+                <ScalarProperty Name="dateStart" ColumnName="dateStart" />
+                <ScalarProperty Name="dateStop" ColumnName="dateStop" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MessageUser" TypeName="NetFrameworkChatDbModel.MessageUser" StoreEntitySet="MessageUser">
+            <EndProperty Name="Message">
+              <ScalarProperty Name="id" ColumnName="messageId" />
+            </EndProperty>
+            <EndProperty Name="User">
+              <ScalarProperty Name="id" ColumnName="userId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="GetCurrentUser" FunctionName="Хранилище NetFrameworkChatDbModel.GetCurrentUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NetFrameworkChatDbModel.CurrentUser">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="color32" ColumnName="color32" />
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Login" FunctionName="Хранилище NetFrameworkChatDbModel.Login" />
+          <FunctionImportMapping FunctionImportName="Logout" FunctionName="Хранилище NetFrameworkChatDbModel.Logout" />
+          <FunctionImportMapping FunctionImportName="Registration" FunctionName="Хранилище NetFrameworkChatDbModel.Registration" />
+          <FunctionImportMapping FunctionImportName="AddMessage" FunctionName="Хранилище NetFrameworkChatDbModel.AddMessage" />
+          <FunctionImportMapping FunctionImportName="GetUnreadMessages" FunctionName="Хранилище NetFrameworkChatDbModel.GetUnreadMessages">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NetFrameworkChatDbModel.UnreadMessage">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="login" ColumnName="login" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddBlackList" FunctionName="Хранилище NetFrameworkChatDbModel.AddBlackList" />
+          <FunctionImportMapping FunctionImportName="AddFriend" FunctionName="Хранилище NetFrameworkChatDbModel.AddFriend" />
+          <FunctionImportMapping FunctionImportName="GetOnlineUsers" FunctionName="Хранилище NetFrameworkChatDbModel.GetOnlineUsers">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="NetFrameworkChatDbModel.OnlineUser">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="color32" ColumnName="color32" />
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
+                <ScalarProperty Name="relation" ColumnName="relation" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetUserRelation" FunctionName="Хранилище NetFrameworkChatDbModel.GetUserRelation" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NetFrameworkChatDbModel.UserRelatioResult">
+                <ScalarProperty Name="relation" ColumnName="relation" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RemoveBlackList" FunctionName="Хранилище NetFrameworkChatDbModel.RemoveBlackList" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

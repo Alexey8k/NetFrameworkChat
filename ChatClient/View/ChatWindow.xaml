@@ -1,0 +1,166 @@
+﻿<Window x:Class="ChatClient.View.ChatWindow"
+        x:Name="Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:int="clr-namespace:System.Windows.Interactivity"
+        xmlns:uc="clr-namespace:ChatClient.UserControl"
+        mc:Ignorable="d"
+        Title="Беседка" Height="550" Width="825" Background="DarkGray">
+    <Window.DataContext>
+        <Binding Source="{StaticResource ViewModelLocator}" Path="ChatViewModel"/>
+    </Window.DataContext>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding LogoutCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../Dictionary/StyleButtondictionary.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="200" MaxWidth="450" MinWidth="100"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.ColumnSpan="2" Grid.Row="0" Background="{StaticResource clrDarkForegraund}">
+            <UserControl DockPanel.Dock="Right" VerticalAlignment="Bottom" Content="{Binding LogInOut}" />
+            <Label Content="Беседка" Margin="0" Padding="0" Style="{StaticResource LogoStyle}" FontSize="33"/>
+        </DockPanel>
+
+        <!--<TextBox Grid.Column="0" Grid.Row="2" x:Name="TextBox" Text="{Binding Text}" TextWrapping="WrapWithOverflow"
+                 Foreground="{Binding TextColor, Converter={StaticResource ColorFromRGB}}" IsReadOnly="True">-->
+        <TextBox x:Name="ChatTextBox" Grid.Column="0" Grid.Row="2" 
+                 Text="{Binding ChatBox}" TextWrapping="WrapWithOverflow"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 IsReadOnly="True">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                    <ei:ChangePropertyAction TargetName="Users" PropertyName="SelectedItem" Value="{x:Null}"/>
+                    <ei:ChangePropertyAction TargetName="Friends" PropertyName="SelectedItem" Value="{x:Null}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="TextChanged">
+                    <i:InvokeCommandAction Command="{Binding ScrollChatCommand}"
+                                           CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TextBox}}}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
+
+        <GridSplitter Grid.Row="2" Width="3" Background="Transparent"/>
+        <TabControl Grid.Column="1" Grid.Row="2" BorderThickness="1,0,1,1"
+                    SelectedIndex="{Binding TabSelectedIndex, UpdateSourceTrigger=PropertyChanged}">
+            <TabItem Header="Ребзя">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="GotFocus">
+                        <ei:ChangePropertyAction TargetName="Friends" PropertyName="SelectedItem" Value="{x:Null}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ListBox x:Name="Users" 
+                         ItemsSource="{Binding Users}" 
+                         DisplayMemberPath="Login" 
+                         SelectionMode="Multiple">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangeCommand}" 
+                                                   CommandParameter="{Binding ElementName=Users, Path=SelectedItems}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ListBox.Resources>
+                        <ContextMenu x:Key="UsersContextMenu" 
+                                     DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=DataContext}">
+                            <!--<MenuItem Header="В друзья" 
+                                      Command="{Binding AddFriendCommand}"
+                                      CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=SelectedItems}"/>-->
+                            <MenuItem Header="В чорный список" 
+                                      Command="{Binding AddBlackListCommand}"
+                                      CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=SelectedItems}"/>
+                        </ContextMenu>
+                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItem}">
+                            <Setter Property="ContextMenu" Value="{DynamicResource UsersContextMenu}" />
+                        </Style>
+                    </ListBox.Resources>
+                    <!--<ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="ContextMenu" Value="{StaticResource UsersContextMenu}" />
+                            <Setter Property="int:InteractivityItems.Template">
+                                <Setter.Value>
+                                    <int:InteractivityTemplate>
+                                        <int:InteractivityItems>
+                                            <int:InteractivityItems.Triggers>
+                                                <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                                                    <ei:ChangePropertyAction
+                                                        PropertyName="IsSelected"
+                                                        Value="false">
+                                                    </ei:ChangePropertyAction>
+                                                </i:EventTrigger>
+                                            </int:InteractivityItems.Triggers>
+                                        </int:InteractivityItems>
+                                    </int:InteractivityTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>-->
+                </ListBox>
+            </TabItem>
+            <!--<TabItem Header="Друзья">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="GotFocus">
+                        <ei:ChangePropertyAction TargetName="Users" PropertyName="SelectedItem" Value="{x:Null}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ListBox x:Name="Friends" ItemsSource="{Binding Friends}" SelectionMode="Multiple"
+                         SelectedItem="{Binding UsersSelectedItem}"/>
+            </TabItem>-->
+            <TabItem Header="Чорный список">
+                <ListBox ItemsSource="{Binding BlackList}"
+                         DisplayMemberPath="Login" 
+                         SelectionMode="Multiple">
+                    <ListBox.Resources>
+                        <ContextMenu x:Key="UsersContextMenu" 
+                                     DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=DataContext}">
+                            <!--<MenuItem Header="В друзья" 
+                                      Command="{Binding AddFriendCommand}"
+                                      CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=SelectedItems}"/>-->
+                            <MenuItem Header="В ребзя" 
+                                      Command="{Binding RemoveBlackListCommand}"
+                                      CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=SelectedItems}"/>
+                        </ContextMenu>
+                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItem}">
+                            <Setter Property="ContextMenu" Value="{DynamicResource UsersContextMenu}" />
+                        </Style>
+                    </ListBox.Resources>
+                </ListBox>
+            </TabItem>
+        </TabControl>
+
+        <DockPanel IsEnabled="{Binding IsLogin}" Grid.ColumnSpan="2" Grid.Row="3" 
+                   FocusManager.FocusedElement="{Binding ElementName=Message}">
+            <Button x:Name="but" Content="Сказать" DockPanel.Dock="Right"
+                    Command="{Binding SendMessageCommamd}">
+                <Button.BitmapEffect>
+                    <DropShadowBitmapEffect Color="Black" Direction="270"/>
+                </Button.BitmapEffect>
+            </Button>
+            <TextBox Text="{Binding MessageText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Return" Command="{Binding SendMessageCommamd}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+        </DockPanel>
+
+    </Grid>
+</Window>

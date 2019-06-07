@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="baf17a601b7a40b29008830a6577cd58" Name="Diagram1">
+        <EntityTypeShape EntityType="NetFrameworkChatDbModel.Cause" Width="1.5" PointX="6" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="NetFrameworkChatDbModel.Message" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NetFrameworkChatDbModel.Role" Width="1.5" PointX="0.75" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="NetFrameworkChatDbModel.Status" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NetFrameworkChatDbModel.User" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="NetFrameworkChatDbModel.LogUserDeleted" Width="1.5" PointX="5.25" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NetFrameworkChatDbModel.LogUserLocked" Width="1.5" PointX="8.25" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NetFrameworkChatDbModel.LogUserOnLine" Width="1.5" PointX="5.25" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NetFrameworkChatDbModel.RelationBlackList" Width="1.5" PointX="5.25" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="NetFrameworkChatDbModel.RelationFriend" Width="1.5" PointX="5.25" PointY="18.875" IsExpanded="true" />
+        <AssociationConnector Association="NetFrameworkChatDbModel.FK_LogUserLocked_Cause" ManuallyRouted="false" />
+        <AssociationConnector Association="NetFrameworkChatDbModel.FK_Message_User" ManuallyRouted="false" />
+        <AssociationConnector Association="NetFrameworkChatDbModel.FK_User_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="NetFrameworkChatDbModel.FK_LogUserDeleted_User" ManuallyRouted="false" />
+        <AssociationConnector Association="NetFrameworkChatDbModel.FK_LogUserLocked_User" ManuallyRouted="false" />
+        <AssociationConnector Association="NetFrameworkChatDbModel.FK_LogUserLocked_UserAdminLock" ManuallyRouted="false" />
+        <AssociationConnector Association="NetFrameworkChatDbModel.FK_LogUserLocked_UserAdminUnlock" ManuallyRouted="false" />
+        <AssociationConnector Association="NetFrameworkChatDbModel.FK_LogUserOnLine_User" ManuallyRouted="false" />
+        <AssociationConnector Association="NetFrameworkChatDbModel.FK_RelationBlackList_UserInitiator" ManuallyRouted="false" />
+        <AssociationConnector Association="NetFrameworkChatDbModel.FK_RelationBlackList_UserRelation" ManuallyRouted="false" />
+        <AssociationConnector Association="NetFrameworkChatDbModel.FK_RelationFriend_UserInitiator" ManuallyRouted="false" />
+        <AssociationConnector Association="NetFrameworkChatDbModel.FK_RelationFriend_UserRelation" ManuallyRouted="false" />
+        <AssociationConnector Association="NetFrameworkChatDbModel.MessageUser" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

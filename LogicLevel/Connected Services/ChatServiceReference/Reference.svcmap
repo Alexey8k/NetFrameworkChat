@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="05892491-55c8-4c72-aaed-3325e69b5072" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://desktop-tk301jk/ChatService/ChatService.ChatService.svc/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="df6e9acc-a692-4056-a252-9cb5b4c0a45b" SourceId="1" SourceUrl="net.tcp://desktop-tk301jk/ChatService/ChatService.ChatService.svc/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="9215e7a1-3b4a-4b53-9d8f-f20c4e048a58" SourceId="1" SourceUrl="net.tcp://desktop-tk301jk/ChatService/ChatService.ChatService.svc/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="1aaf0788-06f5-42a0-8a32-b077cc20b79f" SourceId="1" SourceUrl="net.tcp://desktop-tk301jk/ChatService/ChatService.ChatService.svc/mex" />
+    <MetadataFile FileName="ChatService.DataContract.xsd" MetadataType="Schema" ID="dac04974-2015-48c1-b128-828b20fb0e4c" SourceId="1" SourceUrl="net.tcp://desktop-tk301jk/ChatService/ChatService.ChatService.svc/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="b7a22f77-11ad-4e02-86d9-d381b01b9298" SourceId="1" SourceUrl="net.tcp://desktop-tk301jk/ChatService/ChatService.ChatService.svc/mex" />
+    <MetadataFile FileName="System.Drawing.xsd" MetadataType="Schema" ID="b04091cf-348f-4105-966a-9b468c0e36dd" SourceId="1" SourceUrl="net.tcp://desktop-tk301jk/ChatService/ChatService.ChatService.svc/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

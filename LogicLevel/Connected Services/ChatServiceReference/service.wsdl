@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ChatService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetTcpBinding_IChatService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1">
+        </msb:BinaryEncoding>
+        <wsaw:UsingAddressing>
+        </wsaw:UsingAddressing>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/ChatService.DataContract" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/System.Drawing" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IChatService_Login_InputMessage">
+    <wsdl:part name="parameters" element="tns:Login" />
+  </wsdl:message>
+  <wsdl:message name="IChatService_Login_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="IChatService_Logout_InputMessage">
+    <wsdl:part name="parameters" element="tns:Logout" />
+  </wsdl:message>
+  <wsdl:message name="IChatService_Registration_InputMessage">
+    <wsdl:part name="parameters" element="tns:Registration" />
+  </wsdl:message>
+  <wsdl:message name="IChatService_Registration_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegistrationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IChatService_SendMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMessage" />
+  </wsdl:message>
+  <wsdl:message name="IChatService_AddBlackList_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddBlackList" />
+  </wsdl:message>
+  <wsdl:message name="IChatService_RemoveBlackList_InputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveBlackList" />
+  </wsdl:message>
+  <wsdl:message name="IChatService_UserJoin_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:UserJoin" />
+  </wsdl:message>
+  <wsdl:message name="IChatService_UserLeave_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:UserLeave" />
+  </wsdl:message>
+  <wsdl:message name="IChatService_MessageReceived_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:MessageReceived" />
+  </wsdl:message>
+  <wsdl:message name="IChatService_OnlineUsers_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnlineUsers" />
+  </wsdl:message>
+  <wsdl:message name="IChatService_CurrentUser_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:CurrentUser" />
+  </wsdl:message>
+  <wsdl:message name="IChatService_UnreadMessages_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:UnreadMessages" />
+  </wsdl:message>
+  <wsdl:message name="IChatService_AddBlackListByUser_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:AddBlackListByUser" />
+  </wsdl:message>
+  <wsdl:message name="IChatService_RemoveBlackListByUser_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:RemoveBlackListByUser" />
+  </wsdl:message>
+  <wsdl:portType name="IChatService">
+    <wsdl:operation name="Login">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChatService/Login" message="tns:IChatService_Login_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatService/LoginResponse" message="tns:IChatService_Login_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Logout">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChatService/Logout" message="tns:IChatService_Logout_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Registration">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChatService/Registration" message="tns:IChatService_Registration_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatService/RegistrationResponse" message="tns:IChatService_Registration_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMessage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChatService/SendMessage" message="tns:IChatService_SendMessage_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddBlackList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChatService/AddBlackList" message="tns:IChatService_AddBlackList_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveBlackList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChatService/RemoveBlackList" message="tns:IChatService_RemoveBlackList_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UserJoin">
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatService/UserJoin" message="tns:IChatService_UserJoin_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UserLeave">
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatService/UserLeave" message="tns:IChatService_UserLeave_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MessageReceived">
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatService/MessageReceived" message="tns:IChatService_MessageReceived_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnlineUsers">
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatService/OnlineUsers" message="tns:IChatService_OnlineUsers_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CurrentUser">
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatService/CurrentUser" message="tns:IChatService_CurrentUser_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UnreadMessages">
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatService/UnreadMessages" message="tns:IChatService_UnreadMessages_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddBlackListByUser">
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatService/AddBlackListByUser" message="tns:IChatService_AddBlackListByUser_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveBlackListByUser">
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatService/RemoveBlackListByUser" message="tns:IChatService_RemoveBlackListByUser_OutputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetTcpBinding_IChatService" type="tns:IChatService">
+    <wsp:PolicyReference URI="#NetTcpBinding_IChatService_policy">
+    </wsp:PolicyReference>
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="Login">
+      <soap12:operation soapAction="http://tempuri.org/IChatService/Login" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Logout">
+      <soap12:operation soapAction="http://tempuri.org/IChatService/Logout" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Registration">
+      <soap12:operation soapAction="http://tempuri.org/IChatService/Registration" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMessage">
+      <soap12:operation soapAction="http://tempuri.org/IChatService/SendMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="AddBlackList">
+      <soap12:operation soapAction="http://tempuri.org/IChatService/AddBlackList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveBlackList">
+      <soap12:operation soapAction="http://tempuri.org/IChatService/RemoveBlackList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="UserJoin">
+      <soap12:operation soapAction="http://tempuri.org/IChatService/UserJoin" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserLeave">
+      <soap12:operation soapAction="http://tempuri.org/IChatService/UserLeave" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MessageReceived">
+      <soap12:operation soapAction="http://tempuri.org/IChatService/MessageReceived" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnlineUsers">
+      <soap12:operation soapAction="http://tempuri.org/IChatService/OnlineUsers" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CurrentUser">
+      <soap12:operation soapAction="http://tempuri.org/IChatService/CurrentUser" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnreadMessages">
+      <soap12:operation soapAction="http://tempuri.org/IChatService/UnreadMessages" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddBlackListByUser">
+      <soap12:operation soapAction="http://tempuri.org/IChatService/AddBlackListByUser" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveBlackListByUser">
+      <soap12:operation soapAction="http://tempuri.org/IChatService/RemoveBlackListByUser" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ChatService">
+    <wsdl:port name="NetTcpBinding_IChatService" binding="tns:NetTcpBinding_IChatService">
+      <soap12:address location="net.tcp://desktop-tk301jk/ChatService/ChatService.ChatService.svc/ChatService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://desktop-tk301jk/ChatService/ChatService.ChatService.svc/ChatService</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

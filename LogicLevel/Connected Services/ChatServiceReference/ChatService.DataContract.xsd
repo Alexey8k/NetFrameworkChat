@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ChatService.DataContract" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ChatService.DataContract" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/System.Drawing" />
+  <xs:complexType name="LoginTransportModel">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransportModel">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Hash" nillable="true" type="xs:base64Binary" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LoginTransportModel" nillable="true" type="tns:LoginTransportModel" />
+  <xs:complexType name="BaseTransportModel">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="BaseTransportModel" nillable="true" type="tns:BaseTransportModel" />
+  <xs:complexType name="LoginResultTransportModel">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransportModel">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Result" type="tns:LoginResultTransport" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LoginResultTransportModel" nillable="true" type="tns:LoginResultTransportModel" />
+  <xs:simpleType name="LoginResultTransport">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Ok" />
+      <xs:enumeration value="Delete" />
+      <xs:enumeration value="Lock" />
+      <xs:enumeration value="Online" />
+      <xs:enumeration value="Fail" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="LoginResultTransport" nillable="true" type="tns:LoginResultTransport" />
+  <xs:complexType name="LogoutTransportModel">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransportModel">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="UserId" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LogoutTransportModel" nillable="true" type="tns:LogoutTransportModel" />
+  <xs:complexType name="RegistrationTransportModel">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseHashModel">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Color32" type="xs:int" />
+          <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Login" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RoleId" nillable="true" type="xs:unsignedByte" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="RegistrationTransportModel" nillable="true" type="tns:RegistrationTransportModel" />
+  <xs:complexType name="BaseHashModel">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransportModel">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Hash" nillable="true" type="xs:base64Binary" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseHashModel" nillable="true" type="tns:BaseHashModel" />
+  <xs:complexType name="RegistrationResultTransportModel">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransportModel">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Result" type="tns:RegistrationResultTransport" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="RegistrationResultTransportModel" nillable="true" type="tns:RegistrationResultTransportModel" />
+  <xs:simpleType name="RegistrationResultTransport">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Ok" />
+      <xs:enumeration value="Login" />
+      <xs:enumeration value="Email" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="RegistrationResultTransport" nillable="true" type="tns:RegistrationResultTransport" />
+  <xs:complexType name="MessagePartialTransportModel">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransportModel">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Status" type="tns:MessageStatusTransport" />
+          <xs:element minOccurs="0" name="Text" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="UserId" type="xs:int" />
+          <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="UsersId" nillable="true" type="q1:ArrayOfint" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MessagePartialTransportModel" nillable="true" type="tns:MessagePartialTransportModel" />
+  <xs:simpleType name="MessageStatusTransport">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Private">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Friend">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Share">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="MessageStatusTransport" nillable="true" type="tns:MessageStatusTransport" />
+  <xs:complexType name="RelationTransportModel">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransportModel">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="InitiatorUserId" type="xs:int" />
+          <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="RelationUsersId" nillable="true" type="q2:ArrayOfint" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="RelationTransportModel" nillable="true" type="tns:RelationTransportModel" />
+  <xs:complexType name="OnlineUserTransportModel">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:UserPartialTransportModel">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Relation" type="tns:UserRelationTransport" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="OnlineUserTransportModel" nillable="true" type="tns:OnlineUserTransportModel" />
+  <xs:complexType name="UserPartialTransportModel">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransportModel">
+        <xs:sequence>
+          <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/System.Drawing" minOccurs="0" name="Color" type="q3:Color" />
+          <xs:element minOccurs="0" name="Id" type="xs:int" />
+          <xs:element minOccurs="0" name="Login" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RoleId" type="xs:unsignedByte" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UserPartialTransportModel" nillable="true" type="tns:UserPartialTransportModel" />
+  <xs:simpleType name="UserRelationTransport">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="Friend" />
+      <xs:enumeration value="Blacklist" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="UserRelationTransport" nillable="true" type="tns:UserRelationTransport" />
+  <xs:complexType name="UserLeavedTransportModel">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransportModel">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="UserId" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UserLeavedTransportModel" nillable="true" type="tns:UserLeavedTransportModel" />
+  <xs:complexType name="UserCollectionTransportModel">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransportModel">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Users" nillable="true" type="tns:ArrayOfOnlineUserTransportModel" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UserCollectionTransportModel" nillable="true" type="tns:UserCollectionTransportModel" />
+  <xs:complexType name="ArrayOfOnlineUserTransportModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OnlineUserTransportModel" nillable="true" type="tns:OnlineUserTransportModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOnlineUserTransportModel" nillable="true" type="tns:ArrayOfOnlineUserTransportModel" />
+  <xs:complexType name="UnreadMessagesTransportModel">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransportModel">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Messages" nillable="true" type="tns:ArrayOfMessageTransportModel" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UnreadMessagesTransportModel" nillable="true" type="tns:UnreadMessagesTransportModel" />
+  <xs:complexType name="ArrayOfMessageTransportModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MessageTransportModel" nillable="true" type="tns:MessageTransportModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMessageTransportModel" nillable="true" type="tns:ArrayOfMessageTransportModel" />
+  <xs:complexType name="MessageTransportModel">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransportModel">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="Login" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Status" type="tns:MessageStatusTransport" />
+          <xs:element minOccurs="0" name="Text" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MessageTransportModel" nillable="true" type="tns:MessageTransportModel" />
+  <xs:complexType name="BlackListByUserTransportModel">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransportModel">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="InitiatorUserId" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BlackListByUserTransportModel" nillable="true" type="tns:BlackListByUserTransportModel" />
+</xs:schema>
